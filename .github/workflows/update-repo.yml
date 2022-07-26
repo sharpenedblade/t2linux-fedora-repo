@@ -29,15 +29,11 @@ jobs:
           mkdir /tmp/repo
           cp *.rpm /tmp/repo
           docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:35 /bin/bash -c "/repo/build.sh"
-      - name: Commit
-        run: |
-          shopt -s dotglob
-          git fetch
-          git switch publish
-          git pull
-          cp -r /tmp/repo/* .
-          git config user.email "actions@github.com"
-          git config user.name "GitHub Actions - update submodules"
-          git add --all
-          git commit -m "Update submodules" || echo "No changes to commit"
-          git push origin publish
+
+      - name: Upload
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=/tmp/repo --prod
