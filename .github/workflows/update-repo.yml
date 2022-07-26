@@ -29,6 +29,8 @@ jobs:
           mkdir /tmp/repo
           cp *.rpm /tmp/repo
           docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:35 /bin/bash -c "/repo/build.sh"
+          mkdir -p ./d
+          cp -r /tmp/repo ./d
 
       - name: Upload
         uses: netlify/actions/cli@master
@@ -36,4 +38,4 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         with:
-          args: deploy --dir=/tmp/repo --prod
+          args: deploy --dir=d --prod
