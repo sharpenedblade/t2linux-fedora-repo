@@ -27,15 +27,17 @@ jobs:
       - name: Update repo
         run: |
           mkdir /tmp/repo
-          cp *.rpm /tpm/repo
+          cp *.rpm /tmp/repo
           docker run -t -v "$PWD":/repo -v "/tmp/repo":/tmp/repo  fedora:35 /bin/bash -c "/repo/build.sh"
       - name: Commit
         run: |
           shopt -s dotglob
-          git checkout publish
-          cp /tmp/repo/* .
+          git fetch
+          git switch publish
+          git pull
+          cp -r /tmp/repo/* .
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions - update submodules"
           git add --all
           git commit -m "Update submodules" || echo "No changes to commit"
-          git push
+          git push origin publish
