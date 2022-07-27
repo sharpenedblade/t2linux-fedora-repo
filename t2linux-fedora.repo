@@ -1,6 +1,7 @@
 [t2linux-fedora]
 name=T2 Linux Fedora
-baseurl=https://sharpenedblade.github.io/t2linux-fedora-repo
+baseurl=https://t2linux-fedora-repo.netlify.app/repo
 enabled=1
 gpgcheck=0
+cost=98
 # gpgkey=https://sharpenedblade.github.io/pgp-key.public
