@@ -23,6 +23,15 @@ jobs:
           fileName: "*.rpm"
           tarBall: false
           zipBall: false       
+            
+      - name: Get New Packages
+        uses: robinraju/release-downloader@v1.4
+        with:
+          repository: "sharpenedblade/t2linux-fedora-config"
+          latest: true
+          fileName: "*.rpm"
+          tarBall: false
+          zipBall: false       
 
       - name: Update repo
         run: |
